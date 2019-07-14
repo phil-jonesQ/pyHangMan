@@ -1,3 +1,4 @@
+
 import re
 import pygame
 import random
@@ -28,6 +29,7 @@ arm_left = pygame.transform.scale(pygame.image.load("Assets/arm_left.png"), (30,
 arm_right = pygame.transform.scale(pygame.image.load("Assets/arm_right.png"), (30, 30))
 leg_left = pygame.transform.scale(pygame.image.load("Assets/leg_left.png"), (30, 30))
 leg_right = pygame.transform.scale(pygame.image.load("Assets/leg_right.png"), (30, 30))
+head_dead = pygame.transform.scale(pygame.image.load("Assets/head_dead.png"), (40, 40))
 
 # Char to hide letters
 hide_char = "*"
@@ -44,7 +46,7 @@ clock = pygame.time.Clock()
 
 def main():
     pygame.init()
-    ### Create the Window
+    # Create the Window
     hangmanwindow = pygame.display.set_mode((WindowWidth, WindowHeight))
     pygame.display.set_caption("Hangman V1.0")
 
@@ -97,8 +99,8 @@ def main():
     my_display_word = (hide_char * word_length)
 
     # Initilase fonts we will use
-    font = pygame.font.SysFont('Calibri', 50, False, False)
-    font2 = pygame.font.SysFont('Calibri', 25, False, False)
+    font = pygame.font.SysFont('Arial', 50, False, False)
+    font2 = pygame.font.SysFont('Arial', 51, False, False)
 
     # Start main game loop
     while loop:
@@ -107,7 +109,7 @@ def main():
         hangmanwindow.blit(BG, [0, 0])
 
         # Game "grid" system padding
-        pad = 25
+        pad = 35
         letter_pad = 0
 
         # Draw Blanks
@@ -120,7 +122,7 @@ def main():
         for letterDisplay in guessed_letters:
             text = font.render(letterDisplay, True, RED)
             hangmanwindow.blit(text, [0 + letter_pad, 0])
-            letter_pad = letter_pad + 25
+            letter_pad = letter_pad + pad
 
         # Display Word based on guesses
         for myGuess in guessed_letters:
@@ -151,8 +153,7 @@ def main():
             text = font.render("YOU GOT IT!!!", True, GREEN)
             hangmanwindow.blit(text, [100, 100])
             text = font.render("SPACE to play AGAIN!!", True, BLUE)
-            hangmanwindow.blit(text, [100, 140])
-
+            hangmanwindow.blit(text, [100, 150])
 
         # Took me a while to figure this out but bad guesses are calculated by this simple maths
         bad_guess_count = guess_count - correct_guess_count
@@ -181,25 +182,21 @@ def main():
             hangmanwindow.blit(leg_left, [167, WindowHeight - 222])
         if bad_guess_count >= 11:
             hangmanwindow.blit(leg_right, [197, WindowHeight - 222])
+            hangmanwindow.blit(head_dead, [177, WindowHeight - 310])
 
         # Check if we have lost
         if bad_guess_count >= lives:
             game_over = True
-            text = font2.render("x", True, RED)
-            hangmanwindow.blit(text, [187, WindowHeight - 305])
-            hangmanwindow.blit(text, [199, WindowHeight - 305])
             text = font.render("The word was " + my_word, True, RED)
             hangmanwindow.blit(text, [100, 100])
             text = font.render("SPACE to play AGAIN!!", True, BLUE)
-            hangmanwindow.blit(text, [100, 140])
+            hangmanwindow.blit(text, [100, 150])
 
         # Update the screen
         pygame.display.flip()
 
         # Keep frame rate at 60 - clearly not needed for this type of game
         clock.tick(60)
-
-
         # Handle user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
