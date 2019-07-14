@@ -31,6 +31,7 @@ leg_left = pygame.transform.scale(pygame.image.load("Assets/leg_left.png"), (30,
 leg_right = pygame.transform.scale(pygame.image.load("Assets/leg_right.png"), (30, 30))
 head_dead = pygame.transform.scale(pygame.image.load("Assets/head_dead.png"), (40, 40))
 
+
 # Char to hide letters
 hide_char = "*"
 
@@ -54,10 +55,16 @@ def main():
     guessed_letters = []
 
     # Get word
-    word = rand_word()
+    word = rand_word_animals()
+
+    word2 = rand_words_names()
+
+    # Categories
+
+    category = ['Animals', 'Names']
 
     # Ensure any words imported from any lists are made to upper case
-    my_word = word.upper()
+    my_word = word2.upper()
 
     # Calculate the length of the word
     word_length = len(my_word)
@@ -112,6 +119,12 @@ def main():
         pad = 35
         letter_pad = 0
 
+        # Show user the category
+
+        for name in category:
+            text = font.render(name, True, GREEN)
+            hangmanwindow.blit(text, [WindowWidth - 200, 0 ])
+
         # Draw Blanks
         for letter in range(word_length):
             text = font.render(my_display_word[letter], True, BLACK)
@@ -146,6 +159,7 @@ def main():
                     correct_guess_count += 1
                 if letter == myGuess:
                     correct_guess_count2 += 1
+
 
         # Check if we have won the game
         if correct_guess_count2 == word_length:
