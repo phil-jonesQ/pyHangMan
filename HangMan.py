@@ -15,6 +15,8 @@ WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+LIGHT_GREEN = (101, 152, 101)
+GREY = (128,128,128)
 
 # Load images
 BG = pygame.transform.scale(pygame.image.load("Assets/background.jpeg"), (800, 600))
@@ -31,6 +33,9 @@ leg_left = pygame.transform.scale(pygame.image.load("Assets/leg_left.png"), (30,
 leg_right = pygame.transform.scale(pygame.image.load("Assets/leg_right.png"), (30, 30))
 head_dead = pygame.transform.scale(pygame.image.load("Assets/head_dead.png"), (40, 40))
 
+# Categories is a dictionary where we can change the status depending on selection this global because it is default
+# an is over ridden after game over or won scenario
+category = {"Animals": "ON", "Names": "OFF"}
 
 # Char to hide letters
 hide_char = "*"
@@ -54,17 +59,16 @@ def main():
     # Create an empty list so we can track guessed letters
     guessed_letters = []
 
-    # Get word
-    word = rand_word_animals()
 
-    word2 = rand_words_names()
-
-    # Categories
-
-    category = ['Animals', 'Names']
+    # Get word based on the default "ON" category
+    for cat_status in category:
+        if cat_status == "Animals" and category.get(cat_status) == "ON":
+            word = rand_word_animals()
+        if cat_status == "Names" and category.get(cat_status) == "ON":
+            word = rand_words_names()
 
     # Ensure any words imported from any lists are made to upper case
-    my_word = word2.upper()
+    my_word = word.upper()
 
     # Calculate the length of the word
     word_length = len(my_word)
@@ -120,10 +124,17 @@ def main():
         letter_pad = 0
 
         # Show user the category
-
+        yPOS = 0
         for name in category:
-            text = font.render(name, True, GREEN)
-            hangmanwindow.blit(text, [WindowWidth - 200, 0 ])
+            my_status = category.get(name)
+            if my_status == "ON" and game_over:
+                text = font.render(name, True, GREEN)
+            if my_status == "ON" and not game_over:
+                text = font.render(name, True, LIGHT_GREEN)
+            if my_status == "OFF":
+                text = font.render(name, True, GREY)
+            hangmanwindow.blit(text, [WindowWidth - 200, yPOS])
+            yPOS += 45
 
         # Draw Blanks
         for letter in range(word_length):
@@ -216,6 +227,14 @@ def main():
             if event.type == pygame.QUIT:
                 loop = False
                 pygame.quit()
+            # Handle Category selection
+            if event.type == pygame.KEYDOWN and game_over:
+                if event.key == pygame.K_DOWN:
+                    category.update({"Animals": "OFF", "Names": "ON"})
+                if event.key == pygame.K_UP:
+                    category.update({"Animals": "ON", "Names": "OFF"})
+
+
             # Is game over?
             if event.type == pygame.KEYDOWN and game_over:
                 if event.key == pygame.K_SPACE:
