@@ -4,7 +4,7 @@ import pygame
 import random
 from HangManModules import *
 
-## Global Variables
+# Global Variables
 WindowWidth = 800
 WindowHeight = 600
 x_POS = WindowWidth / 2
@@ -33,8 +33,8 @@ leg_left = pygame.transform.scale(pygame.image.load("Assets/leg_left.png"), (30,
 leg_right = pygame.transform.scale(pygame.image.load("Assets/leg_right.png"), (30, 30))
 head_dead = pygame.transform.scale(pygame.image.load("Assets/head_dead.png"), (40, 40))
 
-# Categories is a dictionary where we can change the status depending on selection this global because it is default
-# an is over ridden after game over or won scenario
+# Categories is a dictionary where we can change the status depending on the selection this is global because
+# it the default declaration and is over-ridden after game over or won scenario
 category = {"Animals": "ON", "Names": "OFF"}
 
 # Char to hide letters
@@ -42,9 +42,6 @@ hide_char = "*"
 
 # Lives is a constant
 lives = 11
-
-# Reset the index to 0 - this will be used to itterate through and index the word
-my_index = 0
 
 # Use the pygame clock so we can set the frame rate of the game
 clock = pygame.time.Clock()
@@ -58,7 +55,6 @@ def main():
 
     # Create an empty list so we can track guessed letters
     guessed_letters = []
-
 
     # Get word based on the default "ON" category
     for cat_status in category:
@@ -109,9 +105,8 @@ def main():
     # Generate Starred out Word
     my_display_word = (hide_char * word_length)
 
-    # Initilase fonts we will use
+    # Initialise fonts we will use
     font = pygame.font.SysFont('Arial', 50, False, False)
-    font2 = pygame.font.SysFont('Arial', 51, False, False)
 
     # Start main game loop
     while loop:
@@ -124,7 +119,7 @@ def main():
         letter_pad = 0
 
         # Show user the category
-        yPOS = 0
+        y_pos = 0
         for name in category:
             my_status = category.get(name)
             if my_status == "ON" and game_over:
@@ -133,8 +128,8 @@ def main():
                 text = font.render(name, True, LIGHT_GREEN)
             if my_status == "OFF":
                 text = font.render(name, True, GREY)
-            hangmanwindow.blit(text, [WindowWidth - 200, yPOS])
-            yPOS += 45
+            hangmanwindow.blit(text, [WindowWidth - 200, y_pos])
+            y_pos += 45
 
         # Draw Blanks
         for letter in range(word_length):
@@ -142,7 +137,7 @@ def main():
             offset = letter + 1
             hangmanwindow.blit(text, [x_POS + (offset * pad), y_POS])
 
-        # Display gussed letters
+        # Display guessed letters
         for letterDisplay in guessed_letters:
             text = font.render(letterDisplay, True, RED)
             hangmanwindow.blit(text, [0 + letter_pad, 0])
@@ -170,7 +165,6 @@ def main():
                     correct_guess_count += 1
                 if letter == myGuess:
                     correct_guess_count2 += 1
-
 
         # Check if we have won the game
         if correct_guess_count2 == word_length:
@@ -233,7 +227,6 @@ def main():
                     category.update({"Animals": "OFF", "Names": "ON"})
                 if event.key == pygame.K_UP:
                     category.update({"Animals": "ON", "Names": "OFF"})
-
 
             # Is game over?
             if event.type == pygame.KEYDOWN and game_over:
@@ -348,6 +341,7 @@ def main():
                     guess_count += 1
                     z = False
                     guessed_letters.append("Z")
+
 
 # Call main
 if __name__ == "__main__":
