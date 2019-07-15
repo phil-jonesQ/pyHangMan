@@ -1,6 +1,8 @@
 """ Version 1.00 - simple game comprising of two categories; Animals and Names
 the game uses pygame to handle the graphics. Probably a little over kill for such a simple game
-but seen a few versions of hangman in python and they've been text based. The assets can be much improved here ... """
+but seen a few versions of hangman in python and they've been text based. The assets can be much improved here ...
+Phil Jones July 2019 - phil.jones.24.4@gmail.com
+"""
 import re
 import pygame
 import random
@@ -18,7 +20,7 @@ BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 LIGHT_GREEN = (101, 152, 101)
-GREY = (128,128,128)
+GREY = (128, 128, 128)
 
 # Load images
 BG = pygame.transform.scale(pygame.image.load("Assets/background.jpeg"), (800, 600))
@@ -53,7 +55,7 @@ def main():
     pygame.init()
     # Create the Window
     hangmanwindow = pygame.display.set_mode((WindowWidth, WindowHeight))
-    pygame.display.set_caption("Hangman V1.0")
+    pygame.display.set_caption("Hangman V1.00")
 
     # Create an empty list so we can track guessed letters
     guessed_letters = []
