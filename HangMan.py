@@ -1,4 +1,6 @@
-
+""" Version 1.00 - simple game comprising of two categories; Animals and Names
+the game uses pygame to handle the graphics. Probably a little over kill for such a simple game
+but seen a few versions of hangman in python and they've been text based. The assets can be much improved here ... """
 import re
 import pygame
 import random
